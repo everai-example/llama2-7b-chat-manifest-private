@@ -108,6 +108,23 @@ def chat():
     return resp
 ```
 
+### Generate readinessProbe service
+
+If readinessProbe is set up, there are no any request be route to this worker before probe status is ready(status code is `200`), otherwise (readinessProbe is not set up), everai platform will route client reqeust to this worker when container is ready, even model files have not been loaded into memory of GPU yet. 
+
+HTTP `get` and `post` probe is the only supported methods now.
+
+```python
+@app.route('/healthy-check', methods=['GET'])
+def healthy():
+    resp = 'service is ready'
+    return resp
+
+if __name__ == '__main__':
+    prepare_model()
+    app.run(host="0.0.0.0", debug=False, port=8866)
+```
+
 ## Build image
 This step will build the container image using `Dockerfile`.    
 

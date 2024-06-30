@@ -106,7 +106,7 @@ def sse():
 
 @app.route('/healthy-check', methods=['GET'])
 def healthy():
-    resp = 'container is ready'
+    resp = 'service is ready'
     return resp
 
 if __name__ == '__main__':
