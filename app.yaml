@@ -1,0 +1,92 @@
+version: everai/v1alpha1
+kind: App
+metadata:
+  name: llama2-7b-chat-manifest-private                          # application name
+spec:
+  routePath: ""                                   # optional field, default same with app name
+  image: quay.io/riverhuang1107/llama2-7b-chat-manifest:v0.0.1       # image for serverless app
+  imagePullSecrets:
+    username:
+      valueFrom:
+        secretKeyRef:
+          name: your-quay-io-secret-name
+          key: username
+    password:
+      valueFrom:
+        secretKeyRef:
+          name: your-quay-io-secret-name
+          key: password
+  volumeMounts:
+    - name: models--meta-llama--llama-2-7b-chat-hf                                    # name
+      mountPath: /workspace/volume       # mount path in container
+      readOnly: true                              # only support `readOnly = true` currently, default is true
+
+  env:
+    - name: HF_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: your-huggingface-secret-name
+          key: token-key-as-your-wish
+
+  port: 8866                                        # just one port cloud be set, everai will pass any http request /**
+                                                  # to this port, default is 80
+  readinessProbe:                                 # if readinessProbe is set up, there are no any request be route
+                                                  # to this worker before probe status is ready ( status code = 200 ),
+                                                  # otherwise (readinessProbe is not set up), everai will route reqeust
+                                                  # to this worker when container is ready,
+                                                  # even model not loaded into memory of gpu
+    httpGet:                                      # http get and post probe is the only supported methods now
+      path: /healthy-check                     # only http status 200 means ready
+
+  volumes:                                        # optional field, but very important for AI app
+    - name: models--meta-llama--llama-2-7b-chat-hf                                    # volume name
+      volume: 
+        volume: models--meta-llama--llama-2-7b-chat-hf          # use a private volume
+    - name: llama2-configmap
+      configMap:
+        name: llama2-configmap
+    - name: your-huggingface-secret-name
+      secret:
+        secretName: your-huggingface-secret-name
+    - name: your-quay-io-secret-name
+      secret:
+        secretName: your-quay-io-secret-name
+
+  resource:
+    cpu: 2
+    memory: 20480 MiB
+    gpu: 1
+    filters:
+      gpu:
+      - A100 40G
+
+  autoscaler:
+    scheduler: queue
+    builtin:
+      name: simple
+      arguments:
+        max_idle_time:
+          valueFrom:
+            configMapKeyRef:
+              name: llama2-configmap
+              key: max_idle_time
+        max_queue_size:
+          valueFrom:
+            configMapKeyRef:
+              name: llama2-configmap
+              key: max_queue_size
+        max_workers:
+          valueFrom:
+            configMapKeyRef:
+              name: llama2-configmap
+              key: max_workers
+        min_workers:
+          valueFrom:
+            configMapKeyRef:
+              name: llama2-configmap
+              key: min_workers
+        scale_up_step:
+          valueFrom:
+            configMapKeyRef:
+              name: llama2-configmap
+              key: scale_up_step
