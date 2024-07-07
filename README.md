@@ -128,6 +128,8 @@ if __name__ == '__main__':
 ## Build image
 This step will build the container image using `Dockerfile`.    
 
+There is an example code in [Dockerfile](https://github.com/everai-example/llama2-7b-chat-manifest-private/blob/main/Dockerfile).   
+
 ```
 WORKDIR /workspace
 
