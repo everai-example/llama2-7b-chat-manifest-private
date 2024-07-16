@@ -130,25 +130,9 @@ This step will build the container image using `Dockerfile`.
 
 There is an example code in [Dockerfile](https://github.com/everai-example/llama2-7b-chat-manifest-private/blob/main/Dockerfile).   
 
-```
-WORKDIR /workspace
+You can choose the public image registry to store application image, such as [quay.io](https://quay.io/), [Docker Hub](https://hub.docker.com/), [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry), [Google Container Registry](https://cloud.google.com/artifact-registry), etc. If you have a self-built image registry and the image can be accessed on the Internet, you can also use it.  
 
-RUN mkdir -p $WORKDIR/volume
-```
-
-In this example, we choose to use [quay.io](https://quay.io/) as the public image registry to store application images. You can also use well-known image registry similar to [quay.io](https://quay.io/), such as [Docker Hub](https://hub.docker.com/), [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry), [Google Container Registry](https://cloud.google.com/artifact-registry), etc. If you have a self-built image registry and the image can be accessed on the Internet, you can also use it.  
-
-The dependence of this step is docker installed on your machine.  
-
-```bash
-docker login quay.io
-
-docker build -t quay.io/<username>/<repo>:<tag> .
-```
-Then call the following command will compile the image and push them to your specified registry.  
-```bash
-docker push quay.io/<username>/<repo>:<tag>
-```
+The dependence of this step is docker installed on your machine. Then use `docker buildx` to build a Docker image that supports multi-platform architecture, and push the packaged image to your specified registry.
 
 ## Create secrets
 Secrets are a secure way to add credentials and other sensitive information to the containers your functions run in.  
