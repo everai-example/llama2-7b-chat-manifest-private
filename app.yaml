@@ -4,7 +4,7 @@ metadata:
   name: llama2-7b-chat-manifest-private                          # application name
 spec:
   routePath: ""                                   # optional field, default same with app name
-  image: quay.io/riverhuang1107/llama2-7b-chat-manifest:v0.0.1       # image for serverless app
+  image: quay.io/mc_jones/llama2-7b-chat-manifest:v0.0.1       # image for serverless app
   imagePullSecrets:
     username:
       valueFrom:
