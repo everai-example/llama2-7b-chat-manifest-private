@@ -42,9 +42,6 @@ spec:
     - name: models--meta-llama--llama-2-7b-chat-hf                                    # volume name
       volume: 
         volume: models--meta-llama--llama-2-7b-chat-hf          # use a private volume
-    - name: llama2-configmap
-      configMap:
-        name: llama2-configmap
     - name: your-huggingface-secret-name
       secret:
         secretName: your-huggingface-secret-name
@@ -63,30 +60,10 @@ spec:
   autoscaler:
     scheduler: queue
     builtin:
-      name: simple
+      name: free-worker
       arguments:
-        max_idle_time:
-          valueFrom:
-            configMapKeyRef:
-              name: llama2-configmap
-              key: max_idle_time
-        min_free_workers:
-          valueFrom:
-            configMapKeyRef:
-              name: llama2-configmap
-              key: min_free_workers
-        max_workers:
-          valueFrom:
-            configMapKeyRef:
-              name: llama2-configmap
-              key: max_workers
-        min_workers:
-          valueFrom:
-            configMapKeyRef:
-              name: llama2-configmap
-              key: min_workers
-        scale_up_step:
-          valueFrom:
-            configMapKeyRef:
-              name: llama2-configmap
-              key: scale_up_step
+        max_idle_time: '60'                        # max idle time, default is 60
+        min_free_workers: '2'                      # min free workers, default is 2
+        max_workers: '5'                           # max workers, default is 5
+        min_workers: '1'                           # min workers, default is 1
+        scale_up_step: '2'                         # scal up step, default is 2
