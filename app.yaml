@@ -63,7 +63,7 @@ spec:
       name: free-worker
       arguments:
         max_idle_time: '60'                        # max idle time, default is 60
-        min_free_workers: '2'                      # min free workers, default is 2
+        min_free_workers: '1'                      # min free workers, default is 2
         max_workers: '5'                           # max workers, default is 5
         min_workers: '1'                           # min workers, default is 1
         scale_up_step: '2'                         # scal up step, default is 2
