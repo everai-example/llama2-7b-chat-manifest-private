@@ -4,7 +4,7 @@ metadata:
   name: llama2-7b-chat-manifest-private                          # application name
 spec:
   routePath: ""                                   # optional field, default same with app name
-  image: quay.io/mc_jones/llama2-7b-chat-manifest:v0.0.1       # image for serverless app
+  image: quay.io/everai2024/llama2-7b-chat-manifest:v0.0.1       # image for serverless app
   imagePullSecrets:
     username:
       valueFrom:
@@ -67,3 +67,5 @@ spec:
         max_workers: '5'                           # max workers, default is 5
         min_workers: '1'                           # min workers, default is 1
         scale_up_step: '2'                         # scal up step, default is 2
+  services:
+  - port: 8866

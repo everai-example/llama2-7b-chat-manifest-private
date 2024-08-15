@@ -86,7 +86,7 @@ tokenizer: typing.Optional[PreTrainedTokenizerBase] = None
 model = None
 
 # service entrypoint
-# api service url looks https://everai.expvent.com/api/routes/v1/default/llama2-7b-chat/chat
+# api service url looks https://everai.expvent.com/api/routes/v1/default/llama2-7b-chat-manifest-private/chat
 # for test local url is http://127.0.0.1:8866/chat
 @app.route('/chat', methods=['GET','POST'])
 def chat():
@@ -165,9 +165,9 @@ After running `everai app list`, you can see the result similar to the following
 If your app's status is `DEPLOYED`, and the number of ready worker containers is equal to the expected number of worker containers, which is `1/1`, it means that your app is deployed successfully.  
 
 ```bash
-NAME                   NAMESPACE    STATUS    WORKERS    CREATED_AT
----------------------  -----------  --------  ---------  ------------------------
-llama2-7b-chat         default      DEPLOYED  1/1        2024-06-19T08:07:24+0000
+NAME                               NAMESPACE    STATUS    WORKERS    CREATED_AT
+---------------------------------  -----------  --------  ---------  ------------------------
+llama2-7b-chat-manifest-private    default      DEPLOYED  1/1        2024-07-22T04:18:16+0000
 ```
 
 When your app is deployed, you can use `curl` to execute the following request to test your deployed code, and you can see that `Llama-2(7B)` model gives the answers to the question on the console. The following data information is displayed.  

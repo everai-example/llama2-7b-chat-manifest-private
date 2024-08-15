@@ -46,7 +46,7 @@ def prepare_model():
 
 
 # service entrypoint
-# api service url looks https://everai.expvent.com/api/routes/v1/default/llama2-7b-chat/chat
+# api service url looks https://everai.expvent.com/api/routes/v1/default/llama2-7b-chat-manifest-private/chat
 # for test local url is http://127.0.0.1:8866/chat
 @app.route('/chat', methods=['GET','POST'])
 def chat():
