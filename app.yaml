@@ -23,10 +23,11 @@ spec:
 
   env:
     - name: HF_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: your-huggingface-secret-name
-          key: token-key-as-your-wish
+      envValue:
+        valueFrom:
+          secretKeyRef:
+            name: your-huggingface-secret-name
+            key: token-key-as-your-wish
 
   port: 8866                                        # just one port cloud be set, everai will pass any http request /**
                                                   # to this port, default is 80
